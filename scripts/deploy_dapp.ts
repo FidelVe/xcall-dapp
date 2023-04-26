@@ -3,10 +3,24 @@ import { ethers } from "hardhat";
 import { Contract } from "./icon/contract";
 import { IconNetwork } from "./icon/network";
 import { Deployments } from "./setup/config";
+import IconService from "icon-sdk-js";
+const { IconWallet, HttpProvider } = IconService;
 const { E2E_DEMO_PATH } = process.env;
 
+const PARAMS = {
+  rpcNodeUrl: "http://localhost:9000/api/v3",
+  keystore: require(E2E_DEMO_PATH + "/keystore.json"),
+  password: "gochain",
+  nid: 3,
+};
+
+const httpProvider = new HttpProvider(PARAMS.rpcNodeUrl);
+const iconService = new IconService(httpProvider);
+const keystore = PARAMS.keystore;
+const wallet = IconWallet.loadKeystore(keystore, PARAMS.password, false);
+
 const deployments = Deployments.getDefault();
-const iconNetwork = IconNetwork.getDefault();
+const iconNetwork = new IconNetwork(iconService, PARAMS.nid, wallet);
 
 async function deploy_dapp() {
   // deploy DApp java
