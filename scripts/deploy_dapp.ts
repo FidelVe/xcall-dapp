@@ -1,3 +1,4 @@
+require("dotenv").config();
 import fs from "fs";
 import { ethers } from "hardhat";
 import { Contract } from "./icon/contract";
@@ -5,14 +6,17 @@ import { IconNetwork } from "./icon/network";
 import { Deployments } from "./setup/config";
 import IconService from "icon-sdk-js";
 const { IconWallet, HttpProvider } = IconService;
-const { E2E_DEMO_PATH } = process.env;
 
 const PARAMS = {
   rpcNodeUrl: "http://localhost:9000/api/v3",
-  keystore: require(E2E_DEMO_PATH + "/keystore.json"),
-  password: "gochain",
+  keystore: require("../wallet/keystore.json"),
+  password: process.env.PW2 == undefined ? "" : process.env.PW2,
   nid: 3,
 };
+
+if (PARAMS.password == "") {
+  throw new Error("PW2 is not set");
+}
 
 const httpProvider = new HttpProvider(PARAMS.rpcNodeUrl);
 const iconService = new IconService(httpProvider);
@@ -25,8 +29,7 @@ const iconNetwork = new IconNetwork(iconService, PARAMS.nid, wallet);
 async function deploy_dapp() {
   // deploy DApp java
   const icon = deployments.get("icon");
-  const dappJar =
-    E2E_DEMO_PATH + "/dapp-sample/build/libs/dapp-sample-0.1.0-optimized.jar";
+  const dappJar = "../dapp-sample/build/libs/dapp-sample-0.1.0-optimized.jar";
   const content = fs.readFileSync(dappJar).toString("hex");
   const dapp = new Contract(iconNetwork);
   const deployTxHash = await dapp.deploy({

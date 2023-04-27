@@ -1,25 +1,37 @@
 {
   "icon": {
-    "network": "0x3.icon",
+    "network": "0x7.icon",
     "contracts": {
-      "bmc": "cx89208496e3affba588fd9a73a3308e4969f180db",
-      "bmv": "cxc880a302ce6583c41f88a04a011ca8cf8c6f6dda",
-      "xcall": "cx5631613406a5a7db50ba4fba319dfd0b879c7459",
-      "dapp": "cx246fca2397af3cdc6e2469016632ecac61740d74"
+      "bmc": "cxf1b0808f09138fffdb890772315aeabb37072a8a",
+      "bmv": "cx57b9817bfa313afeffc459b19e8dab973f7b4e82",
+      "xcall": "cxf4958b242a264fc11d7d8d95f79035e35b21c1bb",
+      "dapp": "cx92283a47a95164bd3d604da08128886125593545"
     },
-    "networkId": "0x5",
-    "blockNum": 38640
+    "networkId": "0x1",
+    "blockNum": 6229774
   },
   "hardhat": {
-    "network": "0x539.hardhat",
+    "network": "0x61.bsc",
     "contracts": {
-      "bmcm": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      "bmcs": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-      "bmcp": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
-      "bmv": "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
-      "xcall": "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
-      "dapp": "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1"
+      "bmcm": "0xFd82803c9b2E92C628846012c6E5016Ac380f68d",
+      "bmcs": "0x6AB5fB039ABbEE20bf43F84393E528015686fB04",
+      "bmcp": "0x193eD92257E0773ccBA097e0ba4110E588eb0F1c",
+      "bmv": "0xAfDa56289E92338514B5aBF0bf22A7dcA60d7e09",
+      "xcall": "0x6193c0b12116c4963594761d859571b9950a8686",
+      "dapp": "0xb072b7d60C143944fdBb45E22A3ae04DcD0b7432"
     },
-    "blockNum": 46
+    "blockNum": 28463560
+  },
+  "bsc": {
+    "network": "0x61.bsc",
+    "contracts": {
+      "bmcm": "0xFd82803c9b2E92C628846012c6E5016Ac380f68d",
+      "bmcs": "0x6AB5fB039ABbEE20bf43F84393E528015686fB04",
+      "bmcp": "0x193eD92257E0773ccBA097e0ba4110E588eb0F1c",
+      "bmv": "0xAfDa56289E92338514B5aBF0bf22A7dcA60d7e09",
+      "xcall": "0x6193c0b12116c4963594761d859571b9950a8686",
+      "dapp": "0xb072b7d60C143944fdBb45E22A3ae04DcD0b7432"
+    },
+    "blockNum": 28463560
   }
 }

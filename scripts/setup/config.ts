@@ -1,6 +1,5 @@
-import fs from 'fs';
-const {E2E_DEMO_PATH} = process.env
-const DEPLOYMENTS_PATH = `${E2E_DEMO_PATH}/deployments.json`
+import fs from "fs";
+const DEPLOYMENTS_PATH = `./deployments.json`;
 
 export class Deployments {
   map: Map<string, any>;
@@ -22,16 +21,21 @@ export class Deployments {
     if (!this.instance) {
       const data = fs.readFileSync(DEPLOYMENTS_PATH);
       const json = JSON.parse(data.toString());
+      // console.log("deployments json");
+      // console.log(json);
       this.instance = new this();
-      this.instance.set('icon', json.icon);
-      this.instance.set('hardhat', json.hardhat);
+      this.instance.set("icon", json.icon);
+      this.instance.set("hardhat", json.hardhat);
+      this.instance.set("bsc", json.bsc);
     }
     return this.instance;
   }
 
   public save() {
-    fs.writeFileSync(DEPLOYMENTS_PATH, JSON.stringify(Object.fromEntries(this.map)), 'utf-8')
+    fs.writeFileSync(
+      DEPLOYMENTS_PATH,
+      JSON.stringify(Object.fromEntries(this.map)),
+      "utf-8"
+    );
   }
 }
-
-
