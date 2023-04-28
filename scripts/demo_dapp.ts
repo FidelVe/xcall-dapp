@@ -9,24 +9,42 @@ import { TypedEvent, TypedEventFilter } from "../typechain-types/common";
 
 const { IconConverter, IconWallet, HttpProvider } = IconService;
 
+const networkSelector = "eth";
+
 const PARAMS = {
-  rpcNodeUrl: "https://berlin.net.solidwallet.io/api/v3/icon_dex",
-  keystore: require("../wallet/keystore.json"),
-  password: process.env.PW2 == undefined ? "" : process.env.PW2,
-  nid: 7,
+  bsc: {
+    rpcNodeUrl: "https://berlin.net.solidwallet.io/api/v3/icon_dex",
+    keystore: require("../wallet/keystore.json"),
+    password: process.env.PW2 == undefined ? "" : process.env.PW2,
+    nid: 7,
+  },
+  eth: {
+    rpcNodeUrl: "https://berlin.net.solidwallet.io/api/v3/icon_dex",
+    keystore: require("../wallet/keystore.json"),
+    password: process.env.PW2 == undefined ? "" : process.env.PW2,
+    nid: 7,
+  },
 };
 
-if (PARAMS.password == "") {
+if (PARAMS[networkSelector].password == "") {
   throw new Error("Please set PW2 env variable");
 }
 
-const httpProvider = new HttpProvider(PARAMS.rpcNodeUrl);
+const httpProvider = new HttpProvider(PARAMS[networkSelector].rpcNodeUrl);
 const iconService = new IconService(httpProvider);
-const keystore = PARAMS.keystore;
-const wallet = IconWallet.loadKeystore(keystore, PARAMS.password, false);
+const keystore = PARAMS[networkSelector].keystore;
+const wallet = IconWallet.loadKeystore(
+  keystore,
+  PARAMS[networkSelector].password,
+  false
+);
 
 const deployments = Deployments.getDefault();
-const iconNetwork = new IconNetwork(iconService, PARAMS.nid, wallet);
+const iconNetwork = new IconNetwork(
+  iconService,
+  PARAMS[networkSelector].nid,
+  wallet
+);
 
 function getBtpAddress(network: string, dapp: string) {
   return `btp://${network}/${dapp}`;
@@ -44,6 +62,7 @@ async function waitEvent<TEvent extends TypedEvent>(
   let next = height + 1;
   // eslint-disable-next-line no-constant-condition
   while (true) {
+    // console.log(`waitEvent: ${height} -> ${next}`);
     for (; height < next; height++) {
       const events = await ctr.queryFilter(filter, height);
       if (events.length > 0) {
@@ -103,7 +122,7 @@ function isIconChain(chain: any) {
 }
 
 function isHardhatChain(chain: any) {
-  return chain.network.includes("bsc");
+  return chain.network.includes(networkSelector);
 }
 
 async function sendMessageFromDApp(
@@ -673,12 +692,16 @@ async function show_banner() {
 }
 
 show_banner()
-  .then(() => sendCallMessage("icon", "bsc"))
-  .then(() => sendCallMessage("bsc", "icon"))
-  .then(() => sendCallMessage("icon", "bsc", "checkSuccessResponse", true))
-  .then(() => sendCallMessage("bsc", "icon", "checkSuccessResponse", true))
-  .then(() => sendCallMessage("icon", "bsc", "revertMessage", true))
-  .then(() => sendCallMessage("bsc", "icon", "revertMessage", true))
+  .then(() => sendCallMessage("icon", networkSelector))
+  .then(() => sendCallMessage(networkSelector, "icon"))
+  .then(() =>
+    sendCallMessage("icon", networkSelector, "checkSuccessResponse", true)
+  )
+  .then(() =>
+    sendCallMessage(networkSelector, "icon", "checkSuccessResponse", true)
+  )
+  .then(() => sendCallMessage("icon", networkSelector, "revertMessage", true))
+  .then(() => sendCallMessage(networkSelector, "icon", "revertMessage", true))
   .catch((error) => {
     console.error(error);
     process.exitCode = 1;

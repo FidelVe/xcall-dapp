@@ -4,7 +4,8 @@ GRADLE = ./gradlew
 
 HARDHAT = npx hardhat
 TS_NODE = npx ts-node
-NETWORK = --network bscTestnet
+NETWORK_BSC = --network bscTestnet
+NETWORK_ETH = --network ethSepolia
 SOLIDITY_CONTRACTS = ./solidity/contracts
 
 .DEFAULT_GOAL := all
@@ -13,14 +14,12 @@ all:
 
 .PHONY: build clean deploy
 
-deploy-dapp:
-	@ echo ">>> Deploy DApp contracts" ; \
-	E2E_DEMO_PATH=$(PWD) \
-	$(HARDHAT) $(NETWORK) run scripts/deploy_dapp.ts
-
-deploy-all: deploy-dapp
-
-run-demo:
+run-demo-bsc:
 	@ echo ">>> Run demo_dapp.ts " ; \
 	E2E_DEMO_PATH=$(PWD) \
-	$(HARDHAT) $(NETWORK) run scripts/demo_dapp.ts
+	$(HARDHAT) $(NETWORK_BSC) run scripts/demo_dapp.ts
+
+run-demo-eth:
+	@ echo ">>> Run demo_dapp.ts " ; \
+	E2E_DEMO_PATH=$(PWD) \
+	$(HARDHAT) $(NETWORK_ETH) run scripts/demo_dapp.ts

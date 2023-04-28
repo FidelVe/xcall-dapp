@@ -55,7 +55,7 @@ const _abi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-];
+] as const;
 
 export class IOwnerManager__factory {
   static readonly abi = _abi;

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node scripts/demo_dapp.ts"
+    "start-bsc": "make run-demo-bsc",
+    "start-eth": "make run-demo-eth"
   },
   "repository": {
     "type": "git",

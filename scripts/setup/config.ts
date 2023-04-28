@@ -27,6 +27,7 @@ export class Deployments {
       this.instance.set("icon", json.icon);
       this.instance.set("hardhat", json.hardhat);
       this.instance.set("bsc", json.bsc);
+      this.instance.set("eth", json.eth);
     }
     return this.instance;
   }

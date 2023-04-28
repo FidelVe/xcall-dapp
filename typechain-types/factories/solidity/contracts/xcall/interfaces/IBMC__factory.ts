@@ -107,7 +107,7 @@ const _abi = [
     stateMutability: "payable",
     type: "function",
   },
-];
+] as const;
 
 export class IBMC__factory {
   static readonly abi = _abi;
