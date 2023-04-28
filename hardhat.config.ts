@@ -19,7 +19,7 @@ const config: HardhatUserConfig = {
     ethSepolia: {
       url: "https://sepolia.infura.io/v3/ffbf8ebe228f4758ae82e175640275e0",
       chainId: 11155111,
-      gasPrice: 2000,
+      gasPrice: 20000,
       accounts: [PK1],
     },
   },
