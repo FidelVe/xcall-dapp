@@ -9,7 +9,7 @@ import { TypedEvent, TypedEventFilter } from "../typechain-types/common";
 
 const { IconConverter, IconWallet, HttpProvider } = IconService;
 
-const networkSelector = "eth";
+const networkSelector = "hardhat2";
 
 const PARAMS = {
   bsc: {
@@ -23,6 +23,12 @@ const PARAMS = {
     keystore: require("../wallet/keystore.json"),
     password: process.env.PW2 == undefined ? "" : process.env.PW2,
     nid: 7,
+  },
+  hardhat2: {
+    rpcNodeUrl: "https://server02.espanicon.team/api/v3/icon_dex",
+    keystore: require("../wallet/keystore.json"),
+    password: process.env.PW2 == undefined ? "" : process.env.PW2,
+    nid: 3,
   },
 };
 
@@ -62,15 +68,18 @@ async function waitEvent<TEvent extends TypedEvent>(
   let next = height + 1;
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    // console.log(`waitEvent: ${height} -> ${next}`);
+    if (height === next) {
+      await sleep(1000);
+      next = (await ctr.provider.getBlockNumber()) + 1;
+      continue;
+    }
+    console.log(`waitEvent: ${height} -> ${next}`);
     for (; height < next; height++) {
       const events = await ctr.queryFilter(filter, height);
       if (events.length > 0) {
         return events as Array<TEvent>;
       }
     }
-    await sleep(1000);
-    next = (await ctr.provider.getBlockNumber()) + 1;
   }
 }
 
@@ -122,7 +131,10 @@ function isIconChain(chain: any) {
 }
 
 function isHardhatChain(chain: any) {
-  return chain.network.includes(networkSelector);
+  return (
+    chain.network.includes(networkSelector) ||
+    chain.network.includes(networkSelector.slice(0, -1))
+  );
 }
 
 async function sendMessageFromDApp(
@@ -274,6 +286,7 @@ async function checkCallMessage(srcChain: any, dstChain: any, sn: BigNumber) {
     }
     return event._reqId;
   } else {
+    console.log(JSON.stringify(dstChain));
     throw new Error(`DApp: unknown destination chain: ${dstChain}`);
   }
 }

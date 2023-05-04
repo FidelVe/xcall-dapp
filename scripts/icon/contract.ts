@@ -41,6 +41,9 @@ export class Contract {
       .method(method)
       .params(params)
       .build();
+
+    // console.log("payload");
+    // console.log(payload);
     return this.iconService.call(payload).execute();
   }
 

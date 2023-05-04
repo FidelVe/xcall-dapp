@@ -10,6 +10,12 @@ if (PK1 === "") {
 
 const config: HardhatUserConfig = {
   networks: {
+    hardhat2: {
+      url: "https://server03.espanicon.team",
+      chainId: 1337,
+      gasPrice: 20000000000,
+      accounts: [PK1],
+    },
     bscTestnet: {
       url: "https://data-seed-prebsc-1-s1.binance.org:8545",
       chainId: 97,

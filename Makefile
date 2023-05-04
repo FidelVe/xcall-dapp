@@ -5,7 +5,7 @@ GRADLE = ./gradlew
 HARDHAT = npx hardhat
 TS_NODE = npx ts-node
 NETWORK_BSC = --network bscTestnet
-NETWORK_ETH = --network ethSepolia
+NETWORK_ETH = --network hardhat2
 SOLIDITY_CONTRACTS = ./solidity/contracts
 
 .DEFAULT_GOAL := all
